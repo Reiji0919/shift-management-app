@@ -29,9 +29,10 @@ export default function ShiftsPage() {
       if (!res.ok) throw new Error(await res.text());
       const data: Shift[] = await res.json();
       setShifts(data);
-    } catch (e: any) {
-      setErr(String(e.message || e));
-    } finally {
+    } catch (e: unknown) {
+      if (e instanceof Error) setErr(e.message);
+      else setErr(String(e));
+    } finally { 
       setLoading(false);
     }
   };
@@ -66,8 +67,9 @@ export default function ShiftsPage() {
       setEndAt('');
       setNote('');
       await fetchShifts();
-    } catch (e: any) {
-      setErr(String(e.message || e));
+    } catch (e: unknown) {
+      if (e instanceof Error) setErr(e.message);
+      else setErr(String(e));
     }
   };
 
@@ -77,8 +79,9 @@ export default function ShiftsPage() {
       const res = await fetch(`${base}/shifts/${id}`, { method: 'DELETE' });
       if (!res.ok && res.status !== 204) throw new Error(await res.text());
       await fetchShifts();
-    } catch (e: any) {
-      setErr(String(e.message || e));
+    } catch (e: unknown) {
+      if (e instanceof Error) setErr(e.message);
+      else setErr(String(e));
     }
   };
 
