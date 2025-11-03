@@ -97,3 +97,22 @@ def delete_shift(shift_id: int, db: Session = Depends(get_db)):
     db.commit()
     return
 
+# app/main.py
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import os
+
+app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+    "https://shift-management-app-ruby.vercel.app",   
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
